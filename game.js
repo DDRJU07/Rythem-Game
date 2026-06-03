@@ -7,6 +7,8 @@ const lanes = [lane1, lane2, lane3, lane4];
 let comboCount = 0;
 const comboDisplay = document.getElementById('combo');
 
+const bgm1 = new Audio(map1);
+
 const keyInputMap = {
     '3': { inputId: 'i1', lane: lane1 },
     'r': { inputId: 'i2', lane: lane2 },
@@ -65,12 +67,6 @@ function dropNote(targetLane) {
     requestAnimationFrame(drop);
 }
 
-function spawnRandomNote() {
-    const randomIndex = Math.floor(Math.random() * 4);
-    const selectedLane = lanes[randomIndex];
-    dropNote(selectedLane);
-}
-
 function checkAndRemoveNotes(targetLane) {
     const allNotesInLane = targetLane.querySelectorAll('.falling-note');
     const inputElement = targetLane.querySelector('.input');
@@ -95,6 +91,32 @@ function updateCombo() {
     comboDisplay.innerText = comboCount + ' COMBO'
 }
 
-setInterval(() => {
-    spawnRandomNote()
-}, 200)
+let isGameStarted = false;
+
+window.addEventListener('click', () => {
+    if (isGameStarted) return;
+    isGameStarted = true;
+    
+    bgm1.play();
+    startGameLoop();
+});
+
+function startGameLoop() {
+    function checkNoteSpawn() {
+        if (bgm1.paused || bgm1.ended) return;
+
+        const currentTime = bgm1.currentTime;
+
+        for (let i = 0; i < noteData.length; i++) {
+            const note = noteData[i];
+
+            if (currentTime >= note.time) {
+                dropNote(lanes[note.lane]);
+                noteData.splice(i, 1);
+                i--; 
+            }
+        }
+        requestAnimationFrame(checkNoteSpawn);
+    }
+    requestAnimationFrame(checkNoteSpawn);
+}
