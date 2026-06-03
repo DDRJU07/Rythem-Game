@@ -1,4 +1,4 @@
-const map1 = '../../src/그저네게맑아라/그저네게맑아라.mp3';
+const map1 = '그저네게맑아라.mp3';
 
 const BPM = 140;
 
