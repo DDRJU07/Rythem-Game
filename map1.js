@@ -1,8 +1,10 @@
-const map1 = '그저네게맑아라.mp3';
+const map1 = '../../src/그저네게맑아라/그저네게맑아라.mp3';
 
 const BPM = 140;
 
 const OFFSET = 0.15;
+
+const SPEED = 800;
 
 const beatData = [
     { beat: 1, lane: 0 },

@@ -44,16 +44,16 @@ function dropNote(targetLane) {
     note.classList.add('falling-note');
     targetLane.appendChild(note);
 
-    let top = 0;
-    const speed = 3;
+    const spawnTime = bgm1.currentTime;
 
     note.isHit = false;
 
     function drop() {
-
         if (note.isHit) return;
+
+        const elapsed = bgm1.currentTime - spawnTime;
         
-        top += speed;
+        let top = elapsed * SPEED;
         note.style.top = top + 'px';
 
         if (top < window.innerHeight) {
@@ -69,7 +69,6 @@ function dropNote(targetLane) {
 
 function checkAndRemoveNotes(targetLane) {
     const allNotesInLane = targetLane.querySelectorAll('.falling-note');
-    const inputElement = targetLane.querySelector('.input');
     const inputCenter = window.innerHeight - 60; 
     const removeRangeMin = inputCenter - 60;
     const removeRangeMax = inputCenter + 60;
